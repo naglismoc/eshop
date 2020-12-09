@@ -9,6 +9,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 use App\Models\Photo;
 class ItemController extends Controller
 {
+
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except('index','create');
+        
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +23,19 @@ class ItemController extends Controller
      */
     public function index()
     {
+        session_start();
+        // dd(session_id());
         $items = Item::all();   
-        // TradeController::populate($stocks);
        return view ('item.index',['items' => $items]);
+    }
+    public function singleCard($id)
+    {
+        $id = (((($id-10)/47)-16)/34);
+        $item = Item::find($id);   
+        if($item==null){
+            return redirect()->route("item.index");
+        }
+       return view ('item.singleCard',['item' => $item]);
     }
 
     /**
@@ -67,7 +84,15 @@ class ItemController extends Controller
             $item->name =$request->name;
             $item->price =$request->price;
             $item->quantity =$request->quantity;
-            $item->description =$request->description;
+
+            $description = [];
+            array_push( $description,$request->color);
+            array_push( $description,$request->warranty);
+            array_push( $description,$request->discount);
+            array_push( $description,$request->manufacturer);
+          
+            // dd(json_encode($description));
+            $item->description =json_encode($description);
             $item->status = 3;
             $item->save();  
                 

@@ -23,21 +23,18 @@ Route::get('/', function () {
 
 
 
-
+// Route::group(['middleware' => ['auth']], function () {
 
 Route::group(['prefix'=>'item'],function(){
 
-    Route::middleware(['auth:sanctum', 'verified'])->
-    get('/',[ItemController::class,'index'])->name('item.index');//suziureti sita su health
+    Route::get('/',[ItemController::class,'index'])->name('item.index');//suziureti sita su health
+    Route::get('/preke/{id}',[ItemController::class,'singleCard'])->name('item.singleCard');//suziureti sita su health
 
-    Route::middleware(['auth:sanctum', 'verified'])->
-    get('/create',[ItemController::class,'create'])->name('item.create');//
+    Route::get('/create',[ItemController::class,'create'])->name('item.create');//
 
-    Route::middleware(['auth:sanctum', 'verified'])->
-    post('/store',[ItemController::class,'store'])->name('item.store');//
+    Route::post('/store',[ItemController::class,'store'])->name('item.store');//
 
-    Route::middleware(['auth:sanctum', 'verified'])->
-    get('/edit/{User}',[ItemController::class,'edit'])->name('item.edit');//kursime veliau
+    Route::get('/edit/{User}',[ItemController::class,'edit'])->name('item.edit');//kursime veliau
 
     Route::middleware(['auth:sanctum', 'verified'])->
     post('/update/{User}',[ItemController::class,'update'])->name('item.update');//kursime veliau
@@ -45,7 +42,7 @@ Route::group(['prefix'=>'item'],function(){
     Route::middleware(['auth:sanctum', 'verified'])->
     post('/destroy/{User}',[ItemController::class,'destroy'])->name('item.destroy');//kursime veliau
 });
-
+// });
 
 
 

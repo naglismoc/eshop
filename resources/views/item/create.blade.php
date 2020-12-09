@@ -36,11 +36,34 @@
 
 
             <div class="mt-4">
+                <x-jet-label for="color" value="{{ __('Color') }}" />
+                <x-jet-input id="color" class="block mt-1 w-full" type="text" name="color" :value="old('color')"  />
+            </div>
+            
+            <div class="mt-4">
+                <x-jet-label for="warranty" value="{{ __('Warranty') }}" />
+                <x-jet-input id="warranty" class="block mt-1 w-full" type="text" name="warranty" :value="old('warranty')"  />
+            </div>
+            <div class="mt-4">
+                <x-jet-label for="discount" value="{{ __('Discount in percents. FIX:No % sign needed') }}" />
+                <x-jet-input id="discount" class="block mt-1 w-mid" type="text" name="discount" :value="old('discount')"  />
+            </div>
+            <div class="mt-4">
+                <x-jet-label for="manufacturer" value="{{ __('Manufacturer') }}" />
+                <x-jet-input id="manufacturer" class="block mt-1 w-mid" type="text" name="manufacturer" :value="old('manufacturer')"  />
+            </div>
+            
+       
+
+
+
+
+            {{-- <div class="mt-4">
                 <x-jet-label for="description" value="{{ __('Description') }}" />
 
                 <textarea class="block mt-1 w-full" id="description" name="description" rows="8"  cols="54" ></textarea>
              
-            </div>
+            </div> --}}
         
             <div class="mt-4">
                 <x-jet-label for="description" value="{{ __('Nuotruakos') }}" />
