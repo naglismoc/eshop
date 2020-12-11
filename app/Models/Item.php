@@ -39,10 +39,13 @@ class Item extends Model
             </div>';
         }
     }
-    public function card(){
-
-
-        return view('item.card',["item"=>$this]);
+    public function card($remembered,$addremove){
+        $this->id;
+        $r=false;
+        if(in_array( $this->id,$_SESSION['rememberedItems'])){
+            $r=true;
+        }
+        return view('item.card',["item"=>$this,"isRemembered"=>$r,'addremove' => $addremove]);
 
 
     }

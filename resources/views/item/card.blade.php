@@ -21,9 +21,41 @@
                         </div>    
                     </div>
                     <div class='card-down'>
-                        <a href="{{route('user.edit',Auth::User()->id)}}">Įsiminti</a>
-                         | prekių kiekis | -[]+ | PRIDĖTI Į KREPŠELĮ
+                        @if ($isRemembered)
+                        <a href="{{route('item.forget',$item->id)}}">Pamiršti</a>
+                        @else
+                        <a href="{{route('item.remember',$item->id)}}">Įsiminti</a>
+                        @endif
+                        prekių kiekis:
+                    
+                        <a class="addremove" href="{{route('item.addremove',['id' => $item->id, 'amount' => -1])}}">-</a>
+                       
+                        @if (isset($addremove[$item->id]))
+                            <input type="text" id="{{$item->id}} "name="addremove" size="1" value="{{$addremove[$item->id]}}">
+                        @else
+                            <input type="text" id="{{$item->id}}" name="addremove"  size="1" value="0">
+                        @endif
+                        
+                        <a class="addremove" href="{{route('item.addremove',['id' => $item->id, 'amount' => 1])}}">+</a>
+                        {{-- <a href="{{ route('post.show', ['category' => $post->category->title, 'post' => $post->id]) }}"></a> --}}
+                         PRIDĖTI Į KREPŠELĮ
+                        
                     </div>  
                 </div>       
             </div>
-        </a>;
+        </a>
+
+        
+        {{-- // (function(){
+        //     let element = document.getElementById(<?php $item->id?>);
+        //   //  for (let i = 0; i < elements.length; i++) {
+        //         element.addEventListener('focusout',function() {
+                  
+        //             data[this.id]=this.value;
+        //             console.log(data);
+
+        //        });
+                
+        //     // }
+        // });
+     --}}

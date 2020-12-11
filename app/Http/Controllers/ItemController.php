@@ -24,10 +24,16 @@ class ItemController extends Controller
     public function index()
     {
         session_start();
-        // dd(session_id());
+        // $_SESSION['addremove']=[];
+        // $_SESSION['rememberedItems']=[];
+        // dd($_SESSION['addremove']);
         $items = Item::all();   
-       return view ('item.index',['items' => $items]);
+       return view ('item.index',
+       ['items' => $items,
+       "remembered" => $_SESSION["rememberedItems"],
+       "addremove" =>  $_SESSION['addremove']]);
     }
+
     public function singleCard($id)
     {
         $id = (((($id-10)/47)-16)/34);
@@ -47,6 +53,103 @@ class ItemController extends Controller
     {
         return view ('item.create');
     }
+    public function remember($id)
+    {
+        session_start();
+        if(!isset($_SESSION['rememberedItems'])){
+            $_SESSION['rememberedItems']=[];
+
+        }
+       // if(!in_array($id,$_SESSION['rememberedItems'])){
+            // array_push($_SESSION['rememberedItems'],$id);
+            $_SESSION['rememberedItems'][$id]=$id;
+      // }
+        return redirect()->route('item.index');
+    }
+
+    public function forget($id)
+    {
+        session_start();
+        unset($_SESSION['rememberedItems'][$id]);
+
+        $urlParts = explode("/", \URL::previous());
+
+        $urlEnd = $urlParts[count($urlParts)-1];
+
+        if( $urlEnd=="item"){
+            return redirect()->route('item.index');
+        }
+        if( $urlEnd=="isiminti"){
+            return redirect()->route('item.'.$urlEnd);
+        }
+        return "ItemController@forget nurodyk blade i kuri turi gryzti";
+    }
+
+    public function addremove($id,$amount)
+    {   
+        session_start();
+        if(!isset($_SESSION['addremove'])){
+            $_SESSION['addremove']=[];
+
+        }
+
+            $_SESSION['addremove'][$id]+=$amount;
+            if($_SESSION['addremove'][$id]<0){
+                $_SESSION['addremove'][$id]=0;
+            }
+  
+        return redirect()->route('item.index');
+    }
+
+    public function addremove2()
+    { 
+        session_start();
+        // $_SESSION['addremove']=[];
+    //    unset( $_SESSION['addremove'][1]);
+    //    unset(   $_SESSION['addremove'][2]);
+    //    unset(  $_SESSION['addremove'][3]);
+        $id= $_GET['id'];
+        $amount= $_GET['val'];
+        //  dd($_SESSION['addremove']);
+        
+        if(!isset($_SESSION['addremove'])){
+            $_SESSION['addremove']=[];
+
+        }
+        // $request['data']
+       
+            $_SESSION['addremove'][$id] = $amount;
+            if($_SESSION['addremove'][$id]<0){
+                $_SESSION['addremove'][$id]=0;
+            }
+  
+        return json_encode($_SESSION['addremove']);
+    }
+    public function sort($word)
+    {;
+        session_start();
+        // $_SESSION['rememberedItems']=[];
+        // dd(session_id());
+        $items = Item::where('category','=', $word)->get();   
+    
+       return view ('item.index',['items' => $items,"remembered"=>$_SESSION["rememberedItems"],"addremove"=>$_SESSION['addremove']]);
+    }
+
+
+
+
+
+    public function isiminti()
+    {  
+        session_start();
+        $items = Item::whereIn('id', $_SESSION['rememberedItems'])->get();
+    
+        return view ('item.remembered',['items' => $items,"remembered"=>$_SESSION["rememberedItems"],"addremove"=>$_SESSION["addremove"]] );
+    }
+
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -84,6 +187,7 @@ class ItemController extends Controller
             $item->name =$request->name;
             $item->price =$request->price;
             $item->quantity =$request->quantity;
+            $item->category =$request->category;
 
             $description = [];
             array_push( $description,$request->color);
@@ -116,6 +220,9 @@ class ItemController extends Controller
 
                 return redirect()->route('item.index')->with('success_message','Prekė sekmingai prideta');
     }
+
+
+
 
     /**
      * Display the specified resource.

@@ -49,6 +49,10 @@
                 <x-jet-input id="discount" class="block mt-1 w-mid" type="text" name="discount" :value="old('discount')"  />
             </div>
             <div class="mt-4">
+                <x-jet-label for="category" value="{{ __('Category') }}" />
+                <x-jet-input id="category" class="block mt-1 w-mid" type="text" name="category" :value="old('category')"  />
+            </div>
+            <div class="mt-4">
                 <x-jet-label for="manufacturer" value="{{ __('Manufacturer') }}" />
                 <x-jet-input id="manufacturer" class="block mt-1 w-mid" type="text" name="manufacturer" :value="old('manufacturer')"  />
             </div>

@@ -32,6 +32,18 @@ Route::group(['prefix'=>'item'],function(){
 
     Route::get('/create',[ItemController::class,'create'])->name('item.create');//
 
+    Route::get('/isiminti',[ItemController::class,'isiminti'])->name('item.isiminti');//
+
+    Route::get('/forget/{id}',[ItemController::class,'forget'])->name('item.forget');//
+    
+    Route::get('/addremove/{id}/{amount}',[ItemController::class,'addremove'])->name('item.addremove');//
+   
+    Route::get('/addremove2',[ItemController::class,'addremove2'])->name('item.addremove2');//
+   
+    Route::get('/sort/{id}',[ItemController::class,'sort'])->name('item.sort');//
+
+    Route::get('/remember/{id}',[ItemController::class,'remember'])->name('item.remember');//
+
     Route::post('/store',[ItemController::class,'store'])->name('item.store');//
 
     Route::get('/edit/{User}',[ItemController::class,'edit'])->name('item.edit');//kursime veliau
